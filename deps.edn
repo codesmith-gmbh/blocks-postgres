@@ -1,0 +1,11 @@
+{:paths   ["src"]
+ :deps    {org.clojure/clojure               {:mvn/version "1.10.3"}
+           codesmith/blocks                  {:git/url "https://github.com/codesmith-gmbh/blocks.git"
+                                              :sha     "6751f885cd1596686e29f93455ba7832d3471535"}
+
+           com.zaxxer/HikariCP               {:mvn/version "4.0.3" :exclusions [org.slf4j/slf4j-api]}
+           com.github.seancorfield/next.jdbc {:mvn/version "1.2.659"}
+           org.postgresql/postgresql         {:mvn/version "42.2.20"}
+           org.flywaydb/flyway-core          {:mvn/version "7.9.0"}}
+ :aliases {:dev  {:extra-paths ["dev"]}
+           :test {:extra-paths ["test"]}}}
