@@ -17,7 +17,7 @@
   [::cb/postgres :external]
   [block-key {:keys [application environment]} ig-config]
   (if (not (::external ig-config))
-    (let [connection-url-key [:elements.block/secret :elements.block.postgres/connection-url]]
+    (let [connection-url-key [::cb/secret ::connection-url]]
       (assoc ig-config
         ::external {:connection-url (ig/ref connection-url-key)}
         connection-url-key {:application    application
