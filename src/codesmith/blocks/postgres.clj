@@ -1,5 +1,6 @@
 (ns codesmith.blocks.postgres
   (:require [codesmith.blocks :as cb]
+            [codesmith.blocks.config]
             [integrant.core :as ig]
             [next.jdbc.connection :as conn])
   (:import [javax.sql DataSource]
