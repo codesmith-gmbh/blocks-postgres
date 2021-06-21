@@ -12,7 +12,8 @@
     (.migrate flyway)))
 
 (defn config->db-spec [{:keys [connection-url]}]
-  {:jdbcUrl connection-url})
+  {:jdbcUrl    connection-url
+   :autoCommit false})
 
 (defmethod cb/typed-block-transform
   [::cb/postgres :external]
