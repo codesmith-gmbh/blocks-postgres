@@ -1,7 +1,7 @@
 {:paths   ["src"]
  :deps    {org.clojure/clojure               {:mvn/version "1.10.3"}
            codesmith/blocks                  {:git/url "https://github.com/codesmith-gmbh/blocks.git"
-                                              :sha     "6751f885cd1596686e29f93455ba7832d3471535"}
+                                              :sha     "f94e38c05300458effd06f9955fcdac830dd357e"}
 
            com.zaxxer/HikariCP               {:mvn/version "4.0.3" :exclusions [org.slf4j/slf4j-api]}
            com.github.seancorfield/next.jdbc {:mvn/version "1.2.659"}
