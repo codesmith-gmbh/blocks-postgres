@@ -15,7 +15,7 @@
   {:jdbcUrl connection-url})
 
 (defmethod cb/typed-block-transform
-  [::cb/postgres :external]
+  [::postgres :external]
   [block-key {:keys [application environment]} ig-config final-substitution]
   [(if (not (::external ig-config))
      (let [connection-url-key [::cbc/secret ::connection-url]]
@@ -34,4 +34,4 @@
     (migrate-db! ds)
     ds))
 
-(derive ::external ::cb/postgres)
+(derive ::external ::postgres)
