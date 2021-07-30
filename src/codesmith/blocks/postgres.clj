@@ -11,21 +11,26 @@
   (let [^Flyway flyway (-> (Flyway/configure) (.dataSource ds) (.load))]
     (.migrate flyway)))
 
-(defn config->db-spec [{:keys [connection-url]}]
+(defn config->db-spec [{:keys [connection-url password]}]
   {:jdbcUrl    connection-url
+   :password   password
    :autoCommit false})
 
 (defmethod cb/typed-block-transform
   [::postgres :external]
   [block-key {:keys [application environment]} ig-config final-substitution]
   [(if (not (::external ig-config))
-     (let [connection-url-key [::cbc/secret ::connection-url]]
+     (let [connection-url-key [::cbc/config ::connection-url]
+           password-key       [::cbc/secret ::password]
+           block-name         (keyword (name block-key))
+           config-base        {:application application
+                               :environment environment
+                               :block-name  block-name}]
        (assoc ig-config
-         ::external {:connection-url (ig/ref connection-url-key)}
-         connection-url-key {:application    application
-                             :environment    environment
-                             :block-name     (keyword (name block-key))
-                             :parameter-name :connection-url}))
+         ::external {:connection-url (ig/ref connection-url-key)
+                     :password       (ig/ref password-key)}
+         connection-url-key (assoc config-base :parameter-name :connection-url)
+         password-key (assoc config-base :parameter-name :password)))
      ig-config)
    final-substitution])
 
