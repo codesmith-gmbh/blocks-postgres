@@ -12,10 +12,11 @@
     (.migrate flyway)))
 
 (defn config->db-spec [{:keys [connection-url password username]}]
-  {:jdbcUrl    connection-url
-   :username   username
-   :password   password
-   :autoCommit false})
+  {:jdbcUrl                   connection-url
+   :username                  username
+   :password                  password
+   :initializationFailTimeout 10000
+   :autoCommit                false})
 
 (defmethod cb/typed-block-transform
   [::postgres :external]
