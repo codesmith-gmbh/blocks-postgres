@@ -2,18 +2,20 @@
   (:require [codesmith.blocks :as cb]
             [codesmith.blocks.config]
             [integrant.core :as ig]
-            [next.jdbc.connection :as conn])
+            [next.jdbc.connection :as conn]
+            [migratus.core :as migratus])
   (:import [javax.sql DataSource]
-           [org.flywaydb.core Flyway]
            [com.zaxxer.hikari HikariDataSource]))
 
 (defn migrate-db! [^DataSource ds]
-  (let [^Flyway flyway (-> (Flyway/configure) (.dataSource ds) (.load))]
-    (.migrate flyway)))
+  (let [config {:db {:datasource ds}}]
+    (migratus/init config)
+    (migratus/migrate config)))
 
 (defn config->db-spec [{:keys [connection-url]}]
-  {:jdbcUrl    connection-url
-   :autoCommit false})
+  {:jdbcUrl               connection-url
+   :autoCommit            false
+   :reWriteBatchedInserts true})
 
 (defmethod cb/typed-block-transform
   [::cb/postgres :external]
